@@ -1,0 +1,15 @@
+@use "styles/variables" as *;
+@use "styles/media" as m;
+
+
+.backButtonWrapper {
+  margin-bottom: 16px;
+
+  @include m.min-width(m.$bp-tablet) {
+    margin-bottom: 24px;
+  }
+
+  @include m.min-width(m.$bp-menu-desktop) {
+    padding: 0;
+  }
+}

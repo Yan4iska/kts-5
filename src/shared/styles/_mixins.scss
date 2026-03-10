@@ -1,0 +1,90 @@
+@use './variables.scss' as var;
+@use './media.scss' as m;
+
+@mixin text-align-center {
+  text-align: center;
+}
+
+@mixin text-responsive {
+  @include m.max-width(m.$bp-phone) {
+    font-size: 14px;
+  }
+
+  @include m.between(m.$bp-phone + 1px, m.$bp-text-max) {
+    font-size: 18px;
+  }
+
+  @include m.min-width(m.$bp-text-lg) {
+    font-size: 20px;
+  }
+}
+
+@mixin padding-hor {
+  @include m.max-width(m.$bp-phone) {
+    padding: 0 18px 0 18px;
+  }
+
+  @include m.between(m.$bp-phone + 1px, m.$bp-desktop-md) {
+    padding: 0 50px 0 50px;
+  }
+
+  @include m.min-width(m.$bp-padding-lg) {
+    padding: 0 100px 0 100px;
+  }
+}
+
+@mixin margin-hor {
+  @include m.max-width(m.$bp-phone) {
+    margin: 0 18px 0 18px;
+  }
+
+  @include m.between(m.$bp-phone + 1px, m.$bp-desktop-md) {
+    margin: 0 50px 0 50px;
+  }
+
+  @include m.min-width(m.$bp-padding-lg) {
+    margin: 0 100px 0 100px;
+  }
+}
+
+@mixin margin-top {
+  @include m.max-width(m.$bp-phone) {
+    margin: 50px 0 18px;
+  }
+
+  @include m.between(m.$bp-phone + 1px, m.$bp-desktop-md) {
+    margin: 50px 0 50px;
+  }
+
+  @include m.min-width(m.$bp-padding-lg) {
+    margin: 50px 0 100px;
+  }
+}
+
+@mixin margin-top-hor {
+  @include m.max-width(m.$bp-phone) {
+    margin: 50px 18px 0 18px;
+  }
+
+  @include m.between(m.$bp-phone + 1px, m.$bp-desktop-md) {
+    margin: 50px 50px 0 50px;
+  }
+
+  @include m.min-width(m.$bp-padding-lg) {
+    margin: 50px 100px 0 100px;
+  }
+}
+
+@mixin page {
+  padding: 24px 0 64px;
+  min-height: calc(100vh - 120px);
+}
+
+@mixin loader-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 1.2rem;
+  color: var.$text-color-secondary;
+}

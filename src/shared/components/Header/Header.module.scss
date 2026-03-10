@@ -1,0 +1,132 @@
+@use './../../styles/variables.scss' as var;
+@use './../../styles/media.scss' as m;
+
+$header-bg: var.$light;
+$header-h: 90px;
+$header-left-gap: 80px;
+$header-left-gap-middle: 60px;
+$header-left-gap-small: 20px;
+$header-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+$burger-panel-width: 280px;
+
+.header {
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: $header-h;
+  background-color: $header-bg;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: $header-shadow;
+  position: relative;
+  z-index: 50;
+
+  @include m.max-width(m.$bp-phone) {
+    gap: $header-left-gap-small;
+  }
+
+  @include m.between(m.$bp-phone + 1px, m.$bp-tablet-lg - 1px) {
+    gap: $header-left-gap-middle;
+  }
+
+  @include m.min-width(m.$bp-tablet-lg) {
+    gap: $header-left-gap;
+  }
+}
+
+/* Desktop: logo | menu | rightBlock */
+.header__desktop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  @include m.max-width(m.$bp-menu-mobile-max) {
+    display: none;
+  }
+}
+
+/* Mobile: [spacer] | logo (center) | burger */
+.header__mobile {
+  display: none;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  @include m.max-width(m.$bp-menu-mobile-max) {
+    display: flex;
+  }
+}
+
+.header__mobileSpacer {
+  flex: 1;
+}
+
+.header__logoWrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__burger {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px;
+  margin: -8px -8px -8px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+.burgerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+
+  @include m.min-width(m.$bp-menu-desktop) {
+    display: none;
+  }
+}
+
+.burgerBackdrop_open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.burgerPanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: $burger-panel-width;
+  max-width: 85vw;
+  background-color: $header-bg;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  z-index: 101;
+  padding: 24px;
+  padding-top: calc(#{$header-h} + 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+
+  @include m.min-width(m.$bp-menu-desktop) {
+    display: none;
+  }
+}
+
+.burgerPanel_open {
+  transform: translateX(0);
+}

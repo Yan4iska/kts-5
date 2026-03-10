@@ -1,0 +1,10 @@
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.back-button__icon {
+  transform: rotate(90deg);
+}

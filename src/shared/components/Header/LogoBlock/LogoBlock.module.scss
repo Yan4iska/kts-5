@@ -1,0 +1,30 @@
+@use '../../../styles/media.scss' as m;
+
+$logo-block-gap: 20px;
+$logo-block-gap-middle: 16px;
+$logo-block-gap-small: 8px;
+
+.logo-block {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  padding: 0;
+  cursor: pointer;
+
+  > svg,
+  > span {
+    cursor: pointer !important;
+  }
+
+  @include m.max-width(m.$bp-phone) {
+    gap: $logo-block-gap-small;
+  }
+
+  @include m.between(m.$bp-phone + 1px, m.$bp-tablet-lg - 1px) {
+    gap: $logo-block-gap-middle;
+  }
+
+  @include m.min-width(m.$bp-tablet-lg) {
+    gap: $logo-block-gap;
+  }
+}

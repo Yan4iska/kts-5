@@ -1,0 +1,28 @@
+@use 'styles/media' as m;
+
+$content-gap: 48px;
+$content-gap-middle: 40px;
+$content-gap-small: 36px;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $content-gap;
+  padding-block: 24px 64px;
+
+  @include m.max-width(m.$bp-phone) {
+    gap: $content-gap-small;
+  }
+
+  @include m.between(m.$bp-phone + 1px, m.$bp-tablet-lg - 1px) {
+    gap: $content-gap-middle;
+  }
+
+  @include m.min-width(m.$bp-tablet-lg) {
+    gap: $content-gap;
+  }
+
+  &__header {
+    text-align: center;
+  }
+}

@@ -1,0 +1,65 @@
+@use '../../../styles/variables.scss' as var;
+
+$right-block-gap: var.$space-m;
+
+.right-block {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  gap: $right-block-gap;
+}
+
+.cartLink {
+  position: relative;
+  display: inline-flex;
+  color: inherit;
+  text-decoration: none;
+}
+
+.cartCount {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+  color: #fff;
+  background: var.$brand;
+  border-radius: 9px;
+}
+
+.userBlock {
+  display: flex;
+  align-items: center;
+  gap: var.$space-m;
+}
+
+.userEmail {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.accountLink {
+  display: inline-flex;
+  color: inherit;
+  text-decoration: none;
+}

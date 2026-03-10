@@ -1,0 +1,112 @@
+@use 'styles/variables' as *;
+@use 'styles/media' as m;
+
+.page {
+  padding: 24px 0 64px;
+}
+
+.title {
+  margin-bottom: 12px;
+}
+
+.description {
+  margin-bottom: 32px;
+  max-width: 560px;
+}
+
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+  grid-template-columns: 1fr;
+
+  @include m.min-width(m.$bp-desktop) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include m.min-width(m.$bp-wide) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gridItem {
+  width: 100%;
+  max-width: 360px;
+  list-style: none;
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+
+  &:hover {
+    .card {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+      transform: translateY(-6px);
+    }
+  }
+}
+
+.card {
+  min-height: auto;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.error {
+  color: var(--color-error, #d32f2f);
+}
+
+.skeleton {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-card-bg, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.skeletonImage {
+  aspect-ratio: 1;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.skeletonBody {
+  padding: 24px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.skeletonLine {
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+
+  &_short {
+    width: 60%;
+  }
+
+  &_title {
+    height: 20px;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

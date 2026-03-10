@@ -1,0 +1,143 @@
+@use '../../../styles/variables.scss' as var;
+@use '../../../styles/media.scss' as m;
+
+$menu-gap: var.$space-m;
+$menu-option-hover: var.$color-brand;
+$items-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.1);
+
+/* Burger variant: vertical list for slide-out panel */
+.menu_burger {
+  display: flex;
+  flex-direction: column;
+  gap: var.$space-s;
+  padding: var.$space-m 0;
+
+  .menu__option_burger {
+    height: auto;
+    padding: 12px 16px;
+    text-decoration: none;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  /* ===== Common (NavLink) ===== */
+
+  .menu__option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease-in-out;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+    }
+
+    &:hover {
+      color: $menu-option-hover;
+      cursor: pointer;
+    }
+
+    &_selected {
+      color: $menu-option-hover;
+    }
+
+    &_selected::after {
+      width: 100%;
+    }
+  }
+
+  /* ================= MOBILE ================= */
+
+  @include m.max-width(m.$bp-menu-mobile-max) {
+    .menu__option {
+      height: auto;
+      padding: 16px;
+      top: 15px;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    &_small {
+      position: relative;
+
+      &__button {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+
+        background: none;
+        border: none;
+        padding: 0;
+      }
+
+      &__buttonIcon {
+        flex-shrink: 0;
+      }
+
+      &__text {
+        display: flex;
+        align-items: center;
+      }
+
+      &__items {
+        position: absolute;
+        z-index: 100;
+        width: 150px;
+        margin-top: 10px;
+        left: -16px;
+
+        background-color: var.$light;
+        border-radius: var.$border-radius;
+        box-shadow: $items-shadow;
+
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    &_big {
+      display: none;
+    }
+  }
+
+  /* ================= DESKTOP ================= */
+
+  @include m.min-width(m.$bp-menu-desktop) {
+    &_small {
+      display: none;
+    }
+
+    &_big {
+      display: flex;
+      align-items: stretch;
+      gap: $menu-gap;
+      height: 100%;
+
+      .menu__option {
+        padding: 0 16px;
+      }
+    }
+  }
+}

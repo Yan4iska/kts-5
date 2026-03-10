@@ -1,0 +1,23 @@
+@use '../../../styles/variables' as *;
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &_color {
+    &-primary {
+      color: $icon-color-primary;
+    }
+
+    &-secondary {
+      color: $icon-color-secondary;
+    }
+
+    &-accent {
+      color: $icon-color-accent;
+    }
+
+  }
+}
+

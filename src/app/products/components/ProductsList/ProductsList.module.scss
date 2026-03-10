@@ -1,0 +1,155 @@
+@use 'styles/variables' as *;
+@use 'styles/media' as m;
+
+
+.totalCount{
+  padding-block: $space-xl;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+
+  grid-template-columns: 1fr;
+
+  @include m.min-width(m.$bp-desktop) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include m.min-width(m.$bp-wide) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+
+  &:hover {
+    .card {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+      transform: translateY(-6px);
+    }
+  }
+}
+
+.priceWrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+}
+
+.price {
+  color: var(--text-primary, #222);
+}
+
+.oldPrice {
+  color: #999;
+  font-size: 1rem;
+  text-decoration: line-through;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.card {
+  min-height: 618px;
+  box-sizing: border-box;
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: $space-l;
+    gap: 16px;
+    flex-wrap: nowrap;
+  }
+}
+
+.button {
+  min-height: 44px;
+  padding: 10px 20px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.quantityBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qtyValue {
+  min-width: 2ch;
+  text-align: center;
+  font-weight: 600;
+}
+
+.loadMoreSentinel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+  padding: 24px 0;
+}
+
+.skeleton {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-card-bg, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.skeletonImage {
+  aspect-ratio: 1;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.skeletonBody {
+  padding: 24px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.skeletonLine {
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+
+  &_short {
+    width: 60%;
+  }
+  &_title {
+    height: 20px;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

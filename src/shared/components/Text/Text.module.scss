@@ -1,0 +1,73 @@
+@use '../../styles/variables' as *;
+
+.text {
+  font-family: 'Roboto';
+  font-weight: 400;
+  &_view {
+    &-button {
+      font-size: 18px;
+      line-height: 18px;
+    }
+
+    &-title {
+      font-size: 44px;
+      line-height: 48px;
+      font-weight: 700;
+    }
+
+    &-p-20 {
+      font-size: 20px;
+      line-height: 24px;
+    }
+
+    &-p-18 {
+      font-size: 18px;
+      line-height: 22px;
+    }
+
+    &-p-16 {
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    &-p-14 {
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+
+  &_weight {
+    &-normal {
+      font-weight: 400;
+    }
+
+    &-medium {
+      font-weight: 500;
+    }
+
+    &-bold {
+      font-weight: 700;
+    }
+  }
+
+  &_color {
+    &-primary {
+      color: $text-color-primary;
+    }
+
+    &-secondary {
+      color: $text-color-secondary;
+    }
+
+    &-accent {
+      color: $text-color-accent;
+    }
+  }
+
+  &_multi-ellipsis {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+  }
+}

@@ -1,0 +1,93 @@
+$color-brand: #518581;
+
+////colors
+$loader-bg: $color-brand;
+$background-body-color: #fafafa;
+
+//icons
+$icon-color-primary: #000000;
+$icon-color-secondary: #afadb5;
+$icon-color-accent: $color-brand;
+
+//text
+$text-color-primary: #000000;
+$text-color-secondary: #afadb5;
+$text-color-accent: $color-brand;
+
+//button
+$button-color-text-primary: #ffffff;
+$button-color-text-primary-hover: #ffffff;
+$button-color-text-primary-active: #ffffff;
+$button-color-text-primary-disabled: #ffffff;
+$button-color-primary-bg: $color-brand;
+$button-color-primary-bg-hover: #86aaa7;
+$button-color-primary-bg-disabled: #d9d9d9;
+$button-color-brand-hover: #86aaa7;
+$button-color-brand-active: #487773;
+
+//card
+$color-card-image-bg: #d9d9d9;
+$color-card-bg: #ffffff;
+$shadow: 0 4px 10px #00000040;
+
+//input
+$color-input-text: #000000;
+$color-input-bg: #ffffff;
+$color-input-border: #ffffff;
+
+$color-input-text-focus: #ffffff;
+$color-input-bg-focus: #ffffff;
+$color-input-border-focus: $color-brand;
+
+$color-input-text-disabled: #00000033;
+$color-input-bg-disabled: #ffffff;
+$color-input-border-disabled: #ffffff;
+$color-input-placeholder: #afadb5;
+
+//CheckBox
+$color-checkbox-bg: #ffffff;
+$color-checkbox-check: $color-brand;
+$color-checkbox-border: #ffffff;
+
+$color-checkbox-bg-hover: #ffffff;
+$color-checkbox-check-hover: $color-brand;
+$color-checkbox-border-hover: $color-brand;
+
+$color-checkbox-bg-disabled: #ffffff80;
+$color-checkbox-check-disabled: #00000033;
+$color-checkbox-border-disabled: #ffffff00;
+
+//MultiDropdown
+$color-dropdown-options-bg: #ffffff;
+
+////space
+$space-s: 14px;
+$space-l: 20px;
+$space-xl: 24px;
+$space-m: 16px;
+$space-xxs: 8px;
+$space-xs: 12px;
+
+////border
+$border-radius: 0;
+
+////custom
+$brand: #b5460f;
+$brand-hover: rgba(181, 70, 15, 0.7);
+$brand-active: #872d01;
+
+$dark: black;
+$light: white;
+$gray: #afadb5;
+
+
+// Container
+$container-max-width: 1200px !default;
+$container-small-max-width: 960px !default;
+
+// Breakpoints
+$breakpoint-mobile: 480px !default;
+$breakpoint-small: 640px !default;      // → phone landscape / small tablet
+$breakpoint-medium: 900px !default;     // → tablet landscape
+$breakpoint-large: 1200px !default;     // → desktop
+$breakpoint-xlarge: 1440px !default;

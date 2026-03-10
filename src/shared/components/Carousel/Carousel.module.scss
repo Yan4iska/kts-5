@@ -1,0 +1,43 @@
+@use 'styles/variables' as *;
+$white: #ffffff;
+.root {
+  width: 100%;
+  height: 100%;
+  background-color: $white;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+}
+
+.viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picture {
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+

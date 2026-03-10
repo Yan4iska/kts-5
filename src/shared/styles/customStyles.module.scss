@@ -1,0 +1,79 @@
+@use './variables.scss' as var;
+@use './media.scss' as m;
+@use './mixins' as mix;
+
+.icon {
+  $icon-primary: var.$dark;
+  $icon-secondary: var.$gray;
+  $icon-accent: var.$brand;
+  $icon-inherit: 'currentColor';
+
+  &_stroke_color {
+    &_primary {
+      stroke: $icon-primary;
+    }
+
+    &_secondary {
+      stroke: $icon-secondary;
+    }
+
+    &_accent {
+      stroke: $icon-accent;
+    }
+
+    &_inherit {
+      stroke: $icon-inherit;
+    }
+  }
+
+  &_fill_color {
+    &_primary {
+      fill: $icon-primary;
+    }
+
+    &_secondary {
+      fill: $icon-secondary;
+    }
+
+    &_accent {
+      fill: $icon-accent;
+    }
+
+    &_inherit {
+      fill: $icon-inherit;
+    }
+  }
+}
+
+.text-align-center {
+  @include mix.text-align-center;
+}
+
+.text-responsive {
+  @include mix.text-responsive;
+}
+
+.padding_hor {
+  @include mix.padding-hor;
+}
+
+.margin_hor {
+  @include mix.margin-hor;
+}
+
+.margin_top {
+  @include mix.margin-top;
+}
+
+.margin_top_hor {
+  @include mix.margin-top-hor;
+}
+
+.page {
+  @include mix.page;
+}
+
+.loaderWrapper,
+.error {
+  @include mix.loader-error;
+}

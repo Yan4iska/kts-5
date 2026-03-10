@@ -1,0 +1,51 @@
+@use 'styles/variables' as *;
+
+.page {
+  padding: 24px 0 64px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.title {
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  display: block;
+}
+
+.input {
+  width: 100%;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.submit {
+  margin-top: 8px;
+}
+
+.footer {
+  margin-top: 24px;
+}
+
+.link {
+  color: $color-brand;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,42 @@
+@use '../../styles/media' as m;
+
+.root {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  box-sizing: border-box;
+
+  @include m.min-width(m.$breakpoint-small) {
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+
+  @include m.min-width(m.$breakpoint-medium) {
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+
+  @include m.min-width(m.$breakpoint-large) {
+    padding-right: 4rem;
+    padding-left: 4rem;
+  }
+}
+
+// ──────────────────────────────────────────────
+// Размеры
+// ──────────────────────────────────────────────
+
+.default {
+  max-width: 1200px;          // основной для большинства страниц магазина
+}
+
+.small {
+  max-width: 960px;           // страницы товара, checkout, авторизация
+}
+
+.expand,
+.full {
+  max-width: none;            // hero, большие слайдеры, промо-блоки
+}
