@@ -21,7 +21,12 @@ const Product = observer(function Product() {
     if (documentId) productStore.fetchProduct(documentId);
   }, [documentId, productStore]);
 
-  if (productLoading) {
+  if (!documentId) {
+    notFound();
+  }
+
+  const waitingOrLoading = productLoading || (documentId && !product && !productError);
+  if (waitingOrLoading) {
     return (
       <div className={custom.page}>
         <div className={custom.loaderWrapper}>
@@ -31,8 +36,17 @@ const Product = observer(function Product() {
     );
   }
 
-  if (productError || !product) {
+  if (productError === 'NOT_FOUND') {
     notFound();
+  }
+
+  if (productError || !product) {
+    return (
+      <div className={custom.page}>
+        <BackButton />
+        <div className={styles.error}>{productError ?? 'Product not found'}</div>
+      </div>
+    );
   }
 
   return (

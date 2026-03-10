@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { getProduct } from 'config/api';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import type { Product } from 'types/product';
@@ -36,7 +37,11 @@ export class ProductStore {
       });
     } catch (err) {
       runInAction(() => {
-        this.productError = err instanceof Error ? err.message : 'Item not found.';
+        if (axios.isAxiosError(err) && err.response?.status === 404) {
+          this.productError = 'NOT_FOUND';
+        } else {
+          this.productError = err instanceof Error ? err.message : 'Item not found.';
+        }
         this.productLoading = false;
       });
     }

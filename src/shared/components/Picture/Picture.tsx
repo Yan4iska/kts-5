@@ -13,10 +13,9 @@ const Picture: React.FC<PictureProps> = React.memo(({ image, className, imgClass
 
   const largeSrc = formats?.large?.url ?? formats?.medium?.url ?? url;
   const mediumSrc = formats?.medium?.url ?? formats?.small?.url ?? url;
-  const smallSrc = formats?.small?.url ?? formats?.thumbnail?.url ?? url;
-  const thumbSrc = formats?.thumbnail?.url ?? smallSrc ?? url;
+  const fallbackSrc = formats?.small?.url ?? formats?.thumbnail?.url ?? url ?? 'https://placehold.co/800x800';
 
-  const src = thumbSrc || url || 'https://placehold.co/360x360';
+  const src = largeSrc || mediumSrc || fallbackSrc;
   const alt = alternativeText ?? image.name ?? 'Product image';
 
   return (
@@ -26,7 +25,8 @@ const Picture: React.FC<PictureProps> = React.memo(({ image, className, imgClass
         src={src}
         alt={alt}
         fill
-        sizes="(max-width: 768px) 100vw, 480px"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+        quality={90}
       />
     </div>
   );
