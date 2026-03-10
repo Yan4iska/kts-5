@@ -13,14 +13,14 @@ const RightBlock: React.FC = observer(() => {
   const { authStore, cartStore } = useRootStore();
   const count = cartStore.count;
   const isAuthenticated = authStore.isAuthenticated;
+  const user = authStore.user;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Match server render until after mount to avoid hydration mismatch (auth is restored from localStorage on client only)
-  const showUserBlock = mounted && isAuthenticated && authStore.user;
+  const showUserBlock = mounted && isAuthenticated && user != null;
 
   return (
     <div className={styles['right-block']}>
@@ -31,7 +31,7 @@ const RightBlock: React.FC = observer(() => {
       {showUserBlock ? (
         <div className={styles.userBlock}>
           <Text tag="span" view="p-16" color="secondary" className={styles.userEmail}>
-            {authStore.user.email}
+            {user!.email}
           </Text>
           <button
             type="button"
