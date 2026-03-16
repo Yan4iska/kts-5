@@ -1,0 +1,23 @@
+@use 'styles/variables' as *;
+
+.page {
+  padding: 24px 0 64px;
+}
+
+.title {
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  margin-bottom: 32px;
+  max-width: 560px;
+}
+
+.currentDiscount {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+

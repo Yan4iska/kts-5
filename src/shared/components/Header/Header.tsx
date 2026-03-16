@@ -1,5 +1,6 @@
 'use client';
 import classNames from 'classnames';
+import Button from 'components/Button';
 import Container from 'components/Container';
 import BurgerIcon from 'components/icons/BurgerIcon';
 import * as React from 'react';
@@ -43,15 +44,15 @@ export const Header: React.FC = () => {
           <div className={styles.header__logoWrap}>
             <LogoBlock />
           </div>
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="sm"
             className={styles.header__burger}
             onClick={() => setBurgerOpen((o) => !o)}
             aria-label="Open menu"
             aria-expanded={burgerOpen}
-          >
-            <BurgerIcon width={24} height={24} />
-          </button>
+            iconLeft={<BurgerIcon width={24} height={24} />}
+          />
         </div>
       </nav>
 

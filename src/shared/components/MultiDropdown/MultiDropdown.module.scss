@@ -18,15 +18,9 @@
   }
 
   &__closeBtn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    min-height: auto;
     padding: 0;
     margin: 0;
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: inherit;
 
     &:hover {
       opacity: 0.8;
@@ -34,15 +28,9 @@
   }
 
   &__option {
-    cursor: pointer;
+    min-height: auto;
     padding: $space-s $space-xs;
-    color: $text-color-primary;
-    display: flex;
-    width: 100%;
-    appearance: none;
-    border: none;
-    outline: none;
-    background: none;
+    justify-content: flex-start;
 
     &:hover {
       color: $text-color-secondary;

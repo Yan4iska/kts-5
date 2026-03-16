@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import Button from '../Button';
 import Input from '../Input';
 import Text from '../Text';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
@@ -121,14 +122,14 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         onChange={setFilter}
         afterSlot={
           opened ? (
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="sm"
               className={s['multiDropdown__closeBtn']}
               onClick={close}
               aria-label="Close dropdown"
-            >
-              <CloseIcon color="secondary" />
-            </button>
+              iconLeft={<CloseIcon color="secondary" />}
+            />
           ) : (
             <ArrowDownIcon color="secondary" />
           )
@@ -137,18 +138,20 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
       {opened && (
         <div className={s['multiDropdown__options']}>
           {filteredOptions.map((option) => (
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
+              fullWidth
+              textView="p-16"
               className={cn(
                 s['multiDropdown__option'],
                 selectedKeysSet.has(option.key) && s['multiDropdown__option_selected']
               )}
               key={option.key}
-              onClick={() => {
-                onSelect(option);
-              }}
+              onClick={() => onSelect(option)}
             >
-              <Text view="p-16">{option.value}</Text>
-            </button>
+              {option.value}
+            </Button>
           ))}
         </div>
       )}
