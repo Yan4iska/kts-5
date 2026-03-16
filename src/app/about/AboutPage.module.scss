@@ -1,0 +1,33 @@
+@use '../../shared/styles/variables' as *;
+
+.page {
+  min-height: 100vh;
+  background-color: $background-body-color;
+}
+
+.section {
+  padding: 1.5rem 0;
+
+  @media (min-width: 641px) {
+    padding: 2rem 0;
+  }
+
+  @media (min-width: 1025px) {
+    padding: 2.5rem 0;
+  }
+}
+
+.sectionFirst {
+  padding-top: 0.75rem;
+  padding-bottom: 1.5rem;
+
+  @media (min-width: 641px) {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  @media (min-width: 1025px) {
+    padding-top: 1.25rem;
+    padding-bottom: 2.5rem;
+  }
+}

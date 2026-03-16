@@ -1,0 +1,157 @@
+@use "styles/variables" as *;
+@use "styles/media" as m;
+
+.section {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.title {
+  margin: 0 0 24px;
+  text-align: left;
+}
+
+.sliderWrap {
+  width: 100%;
+  min-width: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 40px;
+}
+
+.slider {
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 0 40px;
+
+  :global(.swiper-button-prev),
+  :global(.swiper-button-next) {
+    color: $text-color-primary;
+    --swiper-navigation-size: 28px;
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    background: $color-card-bg;
+    border-radius: 50%;
+    box-shadow: $shadow;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+
+    &::after {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    &:hover {
+      background: $button-color-primary-bg-hover;
+      color: $button-color-text-primary;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-brand;
+      outline-offset: 2px;
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+  }
+
+  :global(.swiper-button-prev) {
+    left: 0;
+  }
+
+  :global(.swiper-button-next) {
+    right: 0;
+  }
+}
+
+.slide {
+  height: auto;
+  display: flex;
+  box-sizing: border-box;
+  max-width: 250px;
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    .card {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+      transform: translateY(-4px);
+    }
+  }
+}
+
+.card {
+  width: 100%;
+  max-width: 250px;
+  height: 100%;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.priceWrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.price {
+  color: var(--text-primary, #222);
+}
+
+.oldPrice {
+  color: #999;
+  font-size: 1rem;
+  text-decoration: line-through;
+}
+
+.ratingRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ratingIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.quantityBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qtyValue {
+  min-width: 2ch;
+  text-align: center;
+  font-weight: 600;
+}

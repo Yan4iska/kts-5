@@ -1,22 +1,33 @@
 'use client';
+
 import Button from 'components/Button';
 import Card from 'components/Card';
+import Checkout, { type LineItem } from 'components/Checkout';
 import Container from 'components/Container';
 import Text from 'components/Text';
 import { getProduct } from 'config/api';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useRootStore } from 'stores';
 import type { Product } from 'types/product';
+import type { OrderItem } from 'types/order';
 
 import styles from './Cart.module.scss';
 
 const Cart = observer(() => {
-  const { cartStore } = useRootStore();
+  const router = useRouter();
+  const { cartStore, discountStore, authStore, orderStore } = useRootStore();
   const entries = cartStore.entries;
   const [productsMap, setProductsMap] = useState<Record<string, Product | null>>({});
   const [loading, setLoading] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (entries.length === 0) {
@@ -56,7 +67,18 @@ const Cart = observer(() => {
             Loading cart...
           </Text>
         ) : (
-          <ul className={styles.list}>
+          <>
+            {mounted && discountStore.hasDiscount && (
+              <div className={styles.discountBanner}>
+                <Text view="p-18" color="secondary">
+                  Your discount: <strong>{discountStore.discountPercent}%</strong>{' '}
+                  <Link href="/shares" className={styles.sharesLink}>
+                    (open another case)
+                  </Link>
+                </Text>
+              </div>
+            )}
+            <ul className={styles.list}>
             {entries.map(([documentId, quantity]) => {
               const product = productsMap[documentId];
               if (product == null) {
@@ -144,6 +166,94 @@ const Cart = observer(() => {
               );
             })}
           </ul>
+            {(() => {
+              const itemsWithProduct = entries
+                .map(([documentId, quantity]) => {
+                  const product = productsMap[documentId];
+                  if (!product) return null;
+                  return {
+                    documentId,
+                    productId: product.id,
+                    quantity,
+                    price: product.price,
+                  };
+                })
+                .filter((x): x is LineItem => x != null);
+              const subtotal = itemsWithProduct.reduce(
+                (sum, i) => sum + i.price * i.quantity,
+                0
+              );
+              const discountPercent = mounted ? (discountStore.discountPercent ?? 0) : 0;
+              const total =
+                discountPercent > 0
+                  ? subtotal * (1 - discountPercent / 100)
+                  : subtotal;
+              const totalLabel =
+                discountPercent > 0
+                  ? `Subtotal: $${subtotal.toFixed(2)} → Total with ${discountPercent}% off: $${total.toFixed(2)}`
+                  : `Total: $${total.toFixed(2)}`;
+
+              return (
+                <div className={styles.checkoutSection}>
+                  <div className={styles.totalRow}>
+                    <Text view="p-20" weight="bold">
+                      {totalLabel}
+                    </Text>
+                  </div>
+                  {!showCheckout ? (
+                    <Button
+                      className={styles.checkoutBtn}
+                      onClick={() => setShowCheckout(true)}
+                    >
+                      Proceed to checkout
+                    </Button>
+                  ) : (
+                    <Checkout
+                      lineItems={itemsWithProduct}
+                      discountPercent={mounted ? discountStore.discountPercent : null}
+                      totalLabel={totalLabel}
+                      onSuccess={async () => {
+                        const discountPct = discountStore.discountPercent ?? 0;
+                        const totalCents = Math.round(total * 100);
+                        const orderItems: OrderItem[] = itemsWithProduct.map(
+                          ({ documentId, productId, quantity, price }) => {
+                            const p = productsMap[documentId];
+                            const img = p?.images?.[0];
+                            const imageUrl =
+                              img?.url ||
+                              img?.formats?.medium?.url ||
+                              img?.formats?.small?.url ||
+                              img?.formats?.thumbnail?.url ||
+                              'https://placehold.co/360x360';
+                            return {
+                              documentId,
+                              productId,
+                              quantity,
+                              price,
+                              title: p?.title ?? '',
+                              imageUrl,
+                            };
+                          }
+                        );
+                        if (authStore.user) {
+                          await orderStore.createOrder({
+                            userId: authStore.user.id,
+                            items: orderItems,
+                            discountPercent: discountPct > 0 ? discountPct : null,
+                            totalCents,
+                          });
+                        }
+                        cartStore.clear();
+                        discountStore.clearDiscount();
+                        router.push('/account?success=1');
+                      }}
+                      onCancel={() => setShowCheckout(false)}
+                    />
+                  )}
+                </div>
+              );
+            })()}
+          </>
         )}
       </div>
     </Container>

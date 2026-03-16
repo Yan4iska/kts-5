@@ -1,6 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-
-// Breakpoint values
 $bp-phone: 460px;
 $bp-phone-lg: 640px;
 $bp-tablet: 768px;
@@ -10,21 +7,18 @@ $bp-desktop-md: 1000px;
 $bp-desktop-lg: 1024px;
 $bp-wide: 1355px;
 
-// Legacy / Container
 $breakpoint-small: $bp-phone-lg;
 $breakpoint-medium: $bp-desktop;
 $breakpoint-large: 1200px;
 $breakpoint-mobile: 480px;
 $breakpoint-xlarge: 1440px;
 
-// Custom
 $bp-text-lg: 913px;
 $bp-padding-lg: 1001px;
 $bp-text-max: 912px;
 $bp-menu-desktop: $bp-desktop-lg;
 $bp-menu-mobile-max: 1023px;
 
-// Mixins
 @mixin max-width($width) {
   @media screen and (max-width: $width) {
     @content;

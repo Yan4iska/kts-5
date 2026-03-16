@@ -14,7 +14,14 @@ export class ProductStore {
       productLoading: observable,
       productError: observable,
       fetchProduct: action,
+      hydrateProduct: action,
     });
+  }
+
+  hydrateProduct(product: Product): void {
+    this.product = product;
+    this.productLoading = false;
+    this.productError = null;
   }
 
   async fetchProduct(documentId: string | undefined): Promise<void> {

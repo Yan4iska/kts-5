@@ -3,6 +3,7 @@
 import { configure } from 'mobx';
 import { type ReactNode } from 'react';
 import { StoreProvider as MobXStoreProvider } from '@/shared/stores/StoreContext';
+import type { ProductCategory } from 'types/product';
 
 configure({
   useProxies: 'ifavailable',
@@ -11,11 +12,11 @@ configure({
   observableRequiresReaction: true,
 });
 
-/**
- * Client-only provider for MobX stores.
- * Wrap the part of the tree that uses stores (e.g. in app/layout.tsx).
- * Observer components remain client-side and must be used inside this provider.
- */
-export function StoreProvider({ children }: { children: ReactNode }) {
-  return <MobXStoreProvider>{children}</MobXStoreProvider>;
+type StoreProviderProps = {
+  children: ReactNode;
+  initialCategories?: ProductCategory[];
+};
+
+export function StoreProvider({ children, initialCategories }: StoreProviderProps) {
+  return <MobXStoreProvider initialCategories={initialCategories}>{children}</MobXStoreProvider>;
 }

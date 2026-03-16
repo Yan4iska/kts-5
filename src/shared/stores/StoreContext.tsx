@@ -1,12 +1,34 @@
 'use client';
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
-import { rootStore, type RootStore } from './RootStore';
+import { RootStore, rootStore } from './RootStore';
+import type { ProductCategory } from 'types/product';
 
 const StoreContext = createContext<RootStore | null>(null);
 
-export function StoreProvider({ children }: { children: ReactNode }) {
-  return <StoreContext.Provider value={rootStore}>{children}</StoreContext.Provider>;
+function CartStoreInitializer() {
+  const store = useContext(StoreContext);
+  useEffect(() => {
+    if (store) store.cartStore.fetchCart();
+  }, [store]);
+  return null;
+}
+
+type StoreProviderProps = {
+  children: ReactNode;
+  initialCategories?: ProductCategory[];
+};
+
+export function StoreProvider({ children, initialCategories }: StoreProviderProps) {
+  const [store] = useState<RootStore>(() =>
+    initialCategories !== undefined ? new RootStore(initialCategories) : rootStore
+  );
+  return (
+    <StoreContext.Provider value={store}>
+      <CartStoreInitializer />
+      {children}
+    </StoreContext.Provider>
+  );
 }
 
 export function useRootStore(): RootStore {
