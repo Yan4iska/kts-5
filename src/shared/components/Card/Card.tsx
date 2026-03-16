@@ -54,6 +54,7 @@ const Card: React.FC<CardProps> = ({
     !usePlaceholder && (typeof image !== 'string' || isValidImageSrc(image));
   const imageSrc = typeof image === 'string' && image.trim() ? image : PLACEHOLDER_IMAGE;
   const displaySrc = usePlaceholder ? PLACEHOLDER_IMAGE : (typeof image !== 'string' ? image : imageSrc);
+  const imgSrc = typeof displaySrc === 'string' ? displaySrc : displaySrc.src;
 
   return (
     <div className={cn(className, s.card)} onClick={onClick}>
@@ -71,7 +72,7 @@ const Card: React.FC<CardProps> = ({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             className={s['card__header-src']}
-            src={displaySrc}
+            src={imgSrc}
             alt=""
           />
         )}
