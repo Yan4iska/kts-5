@@ -1,75 +1,50 @@
-'use client';
-import Container from 'components/Container';
-import Loader from 'components/Loader';
-import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
-import { useParams, notFound } from 'next/navigation';
-import { useRootStore } from 'stores';
-import custom from 'styles/customStyles.module.scss';
+import { getProduct, getProducts } from 'config/api';
+import { notFound } from 'next/navigation';
+import axios from 'axios';
+import type { Product } from 'types/product';
 
-import styles from './Product.module.scss';
-import BackButton from './components/BackButton/BackButton';
-import Content from './components/Content/Content';
+import ProductClient from './components/ProductClient';
 
-const Product = observer(function Product() {
-  const params = useParams<{ id: string }>();
-  const documentId = params?.id ?? '';
-  const { productStore } = useRootStore();
-  const { product, productLoading, productError } = productStore;
+const RELATED_MAX = 16;
 
-  useEffect(() => {
-    if (documentId) productStore.fetchProduct(documentId);
-  }, [documentId, productStore]);
+type PageProps = {
+  params: Promise<{ id: string }> | { id: string };
+};
+
+export default async function ProductPage({ params }: PageProps) {
+  const { id: documentId } = await Promise.resolve(params);
 
   if (!documentId) {
     notFound();
   }
 
-  const waitingOrLoading = productLoading || (documentId && !product && !productError);
-  if (waitingOrLoading) {
-    return (
-      <div className={custom.page}>
-        <div className={custom.loaderWrapper}>
-          <Loader />
-        </div>
-      </div>
-    );
+  let product: Product;
+  try {
+    product = await getProduct(documentId);
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      notFound();
+    }
+    throw err;
   }
 
-  if (productError === 'NOT_FOUND') {
-    notFound();
-  }
-
-  if (productError || !product) {
-    return (
-      <div className={custom.page}>
-        <BackButton />
-        <div className={styles.error}>{productError ?? 'Product not found'}</div>
-      </div>
-    );
+  let relatedProducts: Product[] = [];
+  try {
+    const categoryId = product.productCategory?.id;
+    const { data } = await getProducts({
+      page: 1,
+      pageSize: RELATED_MAX + 8,
+      categoryIds: categoryId != null ? [categoryId] : undefined,
+    });
+    const seen = new Set<string>();
+    relatedProducts = data
+      .filter((p) => p.documentId !== documentId && !seen.has(p.documentId) && seen.add(p.documentId))
+      .slice(0, RELATED_MAX);
+  } catch {
+    relatedProducts = [];
   }
 
   return (
-    <Container size="default">
-      <div className={custom.page}>
-        <div className={styles.content}>
-          <div className={styles.backButtonWrapper}>
-            <BackButton />
-          </div>
-          <Content
-            documentId={product.documentId}
-            productId={product.id}
-            title={product.title}
-            description={product.description || 'none description'}
-            price={product.price}
-            discountPercent={product.discountPercent}
-            images={product.images ?? []}
-            isInStock={product.isInStock}
-          />
-        </div>
-      </div>
-    </Container>
+    <ProductClient initialProduct={product} relatedProducts={relatedProducts} />
   );
-});
-
-export default Product;
+}
