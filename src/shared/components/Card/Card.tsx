@@ -1,10 +1,23 @@
 import cn from 'classnames';
 import Image, { type StaticImageData } from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
 import Text from '../Text';
 
 import s from './Card.module.scss';
+
+export const PLACEHOLDER_IMAGE = 'https://placehold.co/360x360';
+
+function isValidImageSrc(image: string | StaticImageData): image is string {
+  if (typeof image !== 'string') return false;
+  if (!image.trim()) return false;
+  try {
+    new URL(image);
+    return image.startsWith('http://') || image.startsWith('https://');
+  } catch {
+    return false;
+  }
+}
 
 export type CardProps = {
   /** Дополнительный classname */
@@ -35,16 +48,33 @@ const Card: React.FC<CardProps> = ({
   contentSlot,
   subtitle,
 }) => {
+  const [imageError, setImageError] = useState(false);
+  const usePlaceholder = imageError || (typeof image === 'string' && !image.trim());
+  const useNextImage =
+    !usePlaceholder && (typeof image !== 'string' || isValidImageSrc(image));
+  const imageSrc = typeof image === 'string' && image.trim() ? image : PLACEHOLDER_IMAGE;
+  const displaySrc = usePlaceholder ? PLACEHOLDER_IMAGE : (typeof image !== 'string' ? image : imageSrc);
+
   return (
     <div className={cn(className, s.card)} onClick={onClick}>
       <div className={s.card__header}>
-        <Image
-          className={s['card__header-src']}
-          src={image}
-          alt=""
-          fill
-          sizes="(max-width: 400px) 100vw, 360px"
-        />
+        {useNextImage ? (
+          <Image
+            className={s['card__header-src']}
+            src={displaySrc}
+            alt=""
+            fill
+            sizes="(max-width: 400px) 100vw, 360px"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            className={s['card__header-src']}
+            src={displaySrc}
+            alt=""
+          />
+        )}
       </div>
       <div className={s.card__body}>
         {captionSlot && (
