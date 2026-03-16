@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["node", "react", "react-dom", "next", "qs"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,6 +21,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "adapters/*": ["./src/shared/adapters/*"],
+      "adapters": ["./src/shared/adapters"],
       "components/*": ["./src/shared/components/*"],
       "components": ["./src/shared/components"],
       "config/*": ["./src/shared/config/*"],

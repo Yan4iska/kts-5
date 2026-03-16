@@ -1,6 +1,8 @@
 @use "styles/variables" as *;
 @use "styles/media" as m;
 
+$content-row-bp: 1002px;
+
 .content {
   display: flex;
   flex-direction: column;
@@ -9,7 +11,7 @@
   max-width: 1200px;
   margin: 0 auto;
 
-  @include m.min-width(m.$bp-tablet) {
+  @include m.min-width($content-row-bp) {
     flex-direction: row;
     gap: 64px;
   }
@@ -19,22 +21,26 @@
   }
 }
 
-.carouselWrapper {
+.galleryWrapper {
   width: 100%;
   max-width: 560px;
   margin: 0 auto;
 
-  @include m.min-width(m.$bp-tablet) {
+  @include m.min-width($content-row-bp) {
     max-width: 50%;
     margin: 0;
   }
 }
 
-.carousel {
+.gallery {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  @include m.max-width($content-row-bp - 1px) {
+    aspect-ratio: auto;
+    min-height: 280px;
+  }
 }
 
 .info {
@@ -43,7 +49,7 @@
   gap: 24px;
   width: 100%;
 
-  @include m.min-width(m.$bp-tablet) {
+  @include m.min-width($content-row-bp) {
     width: 50%;
     gap: 32px;
   }
@@ -51,6 +57,27 @@
 
 .title {
   margin: 0;
+}
+
+.ratingRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ratingIcon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.ratingValue {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.price {
+  color: $text-color-primary;
 }
 
 .priceBlock {
@@ -85,13 +112,11 @@
   }
 }
 
-.btnBuy,
 .btnCart {
   flex: 1;
   min-width: 160px;
   align-items: center;
   justify-content: center;
-
 }
 
 .quantityBlock {

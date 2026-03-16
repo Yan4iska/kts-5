@@ -1,0 +1,66 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/media' as m;
+
+.section {
+  padding: 2.5rem 0;
+
+  @include m.min-width(641px) {
+    padding: 3.5rem 0;
+  }
+
+  @include m.min-width(1025px) {
+    padding: 4rem 0;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+
+  @include m.min-width(m.$breakpoint-medium) {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.copy {
+  order: 1;
+}
+
+.title {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.25rem;
+  color: $text-color-primary;
+}
+
+.text {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: $text-color-secondary;
+  margin: 0;
+}
+
+.media {
+  order: 0;
+
+  @include m.min-width(m.$breakpoint-medium) {
+    order: 2;
+  }
+}
+
+.imageWrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  aspect-ratio: 4/3;
+  background: $color-card-image-bg;
+}
+
+.image {
+  object-fit: cover;
+}

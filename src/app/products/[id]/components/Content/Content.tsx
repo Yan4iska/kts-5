@@ -1,5 +1,6 @@
 import Button from 'components/Button';
-import Carousel from 'components/Carousel';
+import ProductGallery from 'components/ProductGallery';
+import StarIcon from 'components/icons/StarIcon';
 import Text from 'components/Text';
 import type { StrapiImage } from 'types/product';
 import { observer } from 'mobx-react-lite';
@@ -15,6 +16,7 @@ export type ContentProps = {
   description: string;
   price: number;
   discountPercent?: number;
+  rating?: number | null;
   images: StrapiImage[];
   isInStock: boolean;
 };
@@ -26,6 +28,7 @@ const Content = observer(function Content({
   description,
   price,
   discountPercent = 0,
+  rating,
   images,
   isInStock,
 }: ContentProps) {
@@ -47,19 +50,28 @@ const Content = observer(function Content({
 
   return (
     <div className={styles.content}>
-      <div className={styles.carouselWrapper}>
-        <Carousel className={styles.carousel} images={images} />
+      <div className={styles.galleryWrapper}>
+        <ProductGallery className={styles.gallery} images={images} />
       </div>
       <div className={styles.info}>
         <Text view="title" color="primary" tag="h1" className={styles.title}>
           {title}
         </Text>
 
+        {rating != null && (
+          <div className={styles.ratingRow}>
+            <StarIcon className={styles.ratingIcon} color="secondary" />
+            <Text view="p-20" color="secondary" weight="medium" className={styles.ratingValue}>
+              {rating}
+            </Text>
+          </div>
+        )}
+
         <div className={styles.priceBlock}>
           <Text view="p-18" color="secondary" className={styles.description}>
             {description}
           </Text>
-          <Text view="title" color="accent" weight="bold">
+          <Text view="title" color="primary" weight="bold" className={styles.price}>
             ${price}
           </Text>
           {hasDiscount && (
@@ -74,10 +86,6 @@ const Content = observer(function Content({
         </Text>
 
         <div className={styles.actions}>
-          <Button disabled={!isInStock} className={styles.btnBuy}>
-            Buy Now
-          </Button>
-
           {quantity === 0 ? (
             <Button
               disabled={!isInStock}

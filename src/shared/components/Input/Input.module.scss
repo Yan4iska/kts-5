@@ -15,6 +15,7 @@
     padding: 0;
     display: block;
     flex-grow: 1;
+    min-width: 0;
     height: 100%;
     outline: none;
     font-family: Roboto;
@@ -26,6 +27,9 @@
     color: $color-input-text;
     transition: color 0.3s ease;
     background: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &::placeholder {
       color: $color-input-placeholder;

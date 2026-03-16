@@ -61,6 +61,10 @@
   color: var(--color-error, #d32f2f);
 }
 
+.empty {
+  margin: 0;
+}
+
 .skeleton {
   width: 100%;
   max-width: 360px;

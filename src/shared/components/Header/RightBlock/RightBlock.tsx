@@ -2,7 +2,6 @@ import BagIcon from 'components/icons/BagIcon';
 import UserIcon from 'components/icons/UserIcon';
 import Text from 'components/Text';
 import { observer } from 'mobx-react-lite';
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRootStore } from 'stores';
@@ -10,45 +9,39 @@ import { useRootStore } from 'stores';
 import styles from './RightBlock.module.scss';
 
 const RightBlock: React.FC = observer(() => {
-  const { authStore, cartStore } = useRootStore();
+  const { authStore, cartStore, discountStore } = useRootStore();
   const count = cartStore.count;
+  const hasDiscount = discountStore.hasDiscount;
+  const discountPercent = discountStore.discountPercent;
   const isAuthenticated = authStore.isAuthenticated;
-  const user = authStore.user;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const showUserBlock = mounted && isAuthenticated && user != null;
+  const showDiscountBadge = mounted && hasDiscount && discountPercent != null;
 
   return (
     <div className={styles['right-block']}>
+      {showDiscountBadge && (
+        <Link href="/cart" className={styles.discountBadge} aria-label="Active discount">
+          <Text tag="span" view="p-14" weight="bold">
+            {discountPercent}% off
+          </Text>
+        </Link>
+      )}
       <Link href="/cart" className={styles.cartLink} aria-label="Cart">
         <BagIcon style={{ cursor: 'pointer' }} />
         {count > 0 && <span className={styles.cartCount}>{count}</span>}
       </Link>
-      {showUserBlock ? (
-        <div className={styles.userBlock}>
-          <Text tag="span" view="p-16" color="secondary" className={styles.userEmail}>
-            {user!.email}
-          </Text>
-          <button
-            type="button"
-            className={styles.logoutBtn}
-            onClick={() => {
-              authStore.logout();
-              cartStore.clear();
-            }}
-          >
-            <Text tag="span" view="p-16">Log out</Text>
-          </button>
-        </div>
-      ) : (
-        <Link href="/login" className={styles.accountLink} aria-label="Account / Log in">
-          <UserIcon style={{ cursor: 'pointer' }} />
-        </Link>
-      )}
+      <Link
+        href={mounted && isAuthenticated ? '/account' : '/login'}
+        className={styles.accountLink}
+        aria-label={mounted && isAuthenticated ? 'Account' : 'Log in'}
+      >
+        <UserIcon style={{ cursor: 'pointer' }} />
+      </Link>
     </div>
   );
 });

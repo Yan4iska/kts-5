@@ -28,6 +28,7 @@ export type ProductCategory = {
   id: number;
   documentId: string;
   name: string;
+  image?: string;
 };
 
 export type Product = {

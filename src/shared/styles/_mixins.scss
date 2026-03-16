@@ -53,11 +53,11 @@
   }
 
   @include m.between(m.$bp-phone + 1px, m.$bp-desktop-md) {
-    margin: 50px 0 50px;
+    margin: 50px 0 20px;
   }
 
   @include m.min-width(m.$bp-padding-lg) {
-    margin: 50px 0 100px;
+    margin: 50px 0 30px;
   }
 }
 

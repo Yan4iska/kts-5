@@ -1,0 +1,1 @@
+export { CategoriesStore } from './CategoriesStore';

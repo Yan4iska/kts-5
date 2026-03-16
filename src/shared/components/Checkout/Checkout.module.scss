@@ -1,0 +1,33 @@
+@use 'styles/variables' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 420px;
+}
+
+.totalRow {
+  font-weight: 600;
+}
+
+.cardWrap {
+  padding: 14px 12px;
+  background: $color-input-bg;
+  border: 1px solid $color-input-border;
+  border-radius: 8px;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.success {
+  padding: 24px 0;
+}

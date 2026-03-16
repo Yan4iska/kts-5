@@ -3,7 +3,6 @@ import Filter from 'components/Filter';
 import Input from 'components/Input';
 import type { Option } from 'components/MultiDropdown';
 import Text from 'components/Text';
-import { getProductCategories } from 'config/api';
 import { useDebouncedCallback } from 'hooks/useDebouncedCallback';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
@@ -13,6 +12,7 @@ import customStyles from 'styles/customStyles.module.scss';
 import type { ProductCategory } from 'types/product';
 
 import styles from './ProductsHeader.module.scss';
+import custom from "styles/customStyles.module.scss";
 
 const SEARCH_DEBOUNCE_MS = 800;
 
@@ -21,15 +21,9 @@ function toCategoryOptions(categories: ProductCategory[]): Option[] {
 }
 
 const ProductsHeader: React.FC = observer(() => {
-  const { productsStore } = useRootStore();
+  const { productsStore, categoriesStore } = useRootStore();
   const [searchInput, setSearchInput] = useState(productsStore.search);
-  const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
-
-  useEffect(() => {
-    getProductCategories()
-      .then((list) => setCategoryOptions(toCategoryOptions(list)))
-      .catch(() => setCategoryOptions([]));
-  }, []);
+  const categoryOptions = toCategoryOptions(categoriesStore.categories);
 
   const debouncedSetSearch = useDebouncedCallback(
     (value: string) => productsStore.setSearchQuery(value),
@@ -50,7 +44,9 @@ const ProductsHeader: React.FC = observer(() => {
     'We display products based on the latest products we have. Search by name and filter below.';
 
   return (
-    <div>
+    <div className={classNames({
+        [custom['padding_hor']]: true,
+    })}>
       <Text
         tag="h2"
         view="title"
@@ -80,7 +76,8 @@ const ProductsHeader: React.FC = observer(() => {
           placeholder="Search products..."
           aria-label="Search products"
         />
-        <Filter
+        <div className={styles.filterWrap}>
+          <Filter
           categoryOptions={categoryOptions}
           categoryValue={categoryOptions.filter((o) =>
             productsStore.categoryIds.includes(Number(o.key))
@@ -93,6 +90,7 @@ const ProductsHeader: React.FC = observer(() => {
           sortBy={productsStore.sortBy}
           onSortByChange={(v) => productsStore.setSortBy(v)}
         />
+        </div>
       </div>
     </div>
   );

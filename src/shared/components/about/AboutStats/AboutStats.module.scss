@@ -1,0 +1,62 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/media' as m;
+
+.section {
+  padding: 1rem 0;
+
+  @include m.min-width(641px) {
+    padding: 1.5rem 0;
+  }
+
+  @include m.min-width(1025px) {
+    padding: 2rem 0;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include m.min-width(m.$breakpoint-small) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include m.min-width(m.$breakpoint-large) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.item {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: $color-card-bg;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.value {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: $color-brand;
+  margin: 0 0 0.5rem;
+  display: block;
+}
+
+.label {
+  font-size: 1rem;
+  color: $text-color-secondary;
+  margin: 0;
+}

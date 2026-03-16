@@ -3,25 +3,19 @@ import Icon from '../Icon';
 
 const VectorIcon: React.FC<IconProps> = (props) => {
   return (
-    <Icon {...props} xmlns="http://www.w3.org/2000/svg" width="9" height="10" fill="#b5b6b7">
-      <rect
-        x="9"
-        y="1.429"
-        width="4.091"
-        height="1.429"
-        rx=".714"
-        transform="rotate(180 9 1.429)"
+    <Icon
+      {...props}
+      viewBox="0 0 9 10"
+      width={9}
+      height={10}
+      fill="none"
+      style={{ ...props.style, overflow: 'visible' }}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M4.5 7.5L1.5 3.5h2V0h2v3.5h2L4.5 7.5z"
       />
-      &amp;gt;
-      <rect
-        x="9"
-        y="5.714"
-        width="6.545"
-        height="1.429"
-        rx=".714"
-        transform="rotate(180 9 5.714)"
-      />
-      <rect x="9" y="10" width="9" height="1.429" rx=".714" transform="rotate(180 9 10)" />
     </Icon>
   );
 };

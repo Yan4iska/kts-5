@@ -15,7 +15,6 @@ export class CartStore {
 
   constructor() {
     makeAutoObservable(this, {}, { deep: false });
-    this.fetchCart();
   }
 
   get totalItemCount(): number {

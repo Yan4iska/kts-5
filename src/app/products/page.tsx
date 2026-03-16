@@ -1,48 +1,41 @@
-'use client';
 import Container from 'components/Container';
-import { observer } from 'mobx-react-lite';
-import { Suspense, useEffect } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useRootStore } from 'stores';
+import { getProducts } from 'config/api';
+import { getProductsParamsFromSearchParams } from 'stores/ProductsStore/ProductsStore';
+import { Suspense } from 'react';
 
+import ProductsClient from './components/ProductsClient';
 import styles from './Products.module.scss';
-import ProductsHeader from './components/ProductsHeader/ProductsHeader';
-import ProductsList from './components/ProductsList';
 
-const ProductsContent = observer(() => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const { productsStore } = useRootStore();
-  const { search, pageSize, categoryIds, inStockOnly, sortBy } = productsStore;
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>> | Record<string, string | string[] | undefined>;
+};
 
-  useEffect(() => {
-    productsStore.applyQueryParams(searchParams);
-  }, [searchParams, productsStore]);
+export default async function ProductsPage({ searchParams }: PageProps) {
+  const params = await Promise.resolve(searchParams);
+  const getParams = getProductsParamsFromSearchParams(params);
+  const { data: products, total, pageCount } = await getProducts(getParams);
 
-  useEffect(() => {
-    const next = productsStore.buildQueryParams();
-    const nextStr = next.toString();
-    if (searchParams.toString() !== nextStr) {
-      router.replace(nextStr ? `${pathname}?${nextStr}` : pathname, { scroll: false });
-    }
-    productsStore.fetchProducts();
-  }, [search, pageSize, categoryIds, inStockOnly, sortBy, pathname, router, productsStore]);
+  const initialData = {
+    products,
+    total,
+    pageCount,
+    page: getParams.page ?? 1,
+    pageSize: getParams.pageSize ?? 12,
+    search: getParams.search ?? '',
+    categoryIds: getParams.categoryIds ?? [],
+    inStockOnly: getParams.inStockOnly ?? false,
+    sortBy: getParams.sortBy ?? [],
+  };
 
   return (
-    <Container>
-      <div className={styles.content}>
-        <ProductsHeader />
-        <ProductsList />
-      </div>
-    </Container>
-  );
-});
-
-export default function Products() {
-  return (
-    <Suspense fallback={<Container><div className={styles.content}>Loading...</div></Container>}>
-      <ProductsContent />
+    <Suspense
+      fallback={
+        <Container>
+          <div className={styles.content}>Loading...</div>
+        </Container>
+      }
+    >
+      <ProductsClient initialData={initialData} />
     </Suspense>
   );
 }

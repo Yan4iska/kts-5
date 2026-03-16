@@ -9,6 +9,21 @@ $right-block-gap: var.$space-m;
   gap: $right-block-gap;
 }
 
+.discountBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
 .cartLink {
   position: relative;
   display: inline-flex;
@@ -30,32 +45,6 @@ $right-block-gap: var.$space-m;
   color: #fff;
   background: var.$brand;
   border-radius: 9px;
-}
-
-.userBlock {
-  display: flex;
-  align-items: center;
-  gap: var.$space-m;
-}
-
-.userEmail {
-  max-width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.logoutBtn {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  color: inherit;
-  font: inherit;
-  text-decoration: underline;
-  &:hover {
-    opacity: 0.8;
-  }
 }
 
 .accountLink {

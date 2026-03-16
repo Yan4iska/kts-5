@@ -14,8 +14,8 @@ type FilterProps = {
   onCategoryChange?: (value: Option[]) => void;
   inStockOnly: boolean;
   onInStockOnlyChange: (value: boolean) => void;
-  sortBy: SortBy | null;
-  onSortByChange: (value: SortBy | null) => void;
+  sortBy: SortBy[];
+  onSortByChange: (value: SortBy[]) => void;
 };
 
 const Filter = observer(
@@ -28,17 +28,18 @@ const Filter = observer(
     sortBy,
     onSortByChange,
   }: FilterProps) => {
-    const sortValue: Option[] =
-      sortBy != null
-        ? [SORT_OPTIONS_AS_OPTIONS.find((o) => o.key === sortBy)!].filter(Boolean)
-        : [];
+    const sortValue: Option[] = sortBy
+      .map((key) => SORT_OPTIONS_AS_OPTIONS.find((o) => o.key === key))
+      .filter((o): o is Option => o != null);
 
     const handleSortChange = (value: Option[]) => {
-      if (value.length === 0) {
-        onSortByChange(null);
-        return;
-      }
-      onSortByChange(value[value.length - 1].key as SortBy);
+      // At most one price and one rating: keep the last selected of each type
+      const priceOpts = value.filter((o) => o.key.startsWith('price_'));
+      const ratingOpts = value.filter((o) => o.key.startsWith('rating_'));
+      const lastPrice = priceOpts[priceOpts.length - 1];
+      const lastRating = ratingOpts[ratingOpts.length - 1];
+      const normalized = [lastRating, lastPrice].filter(Boolean);
+      onSortByChange(normalized.map((o) => o.key as SortBy));
     };
 
     const categoryTitle = (v: Option[]) =>
@@ -48,6 +49,7 @@ const Filter = observer(
       <div className={styles.filterRow}>
         {categoryOptions.length > 0 && onCategoryChange && (
           <MultiDropdown
+            className={styles.dropdownFullWidth}
             options={categoryOptions}
             value={categoryValue}
             onChange={onCategoryChange}
@@ -55,10 +57,11 @@ const Filter = observer(
           />
         )}
         <MultiDropdown
+          className={styles.dropdownFullWidth}
           options={SORT_OPTIONS_AS_OPTIONS}
           value={sortValue}
           onChange={handleSortChange}
-          getTitle={(v) => (v.length > 0 ? v[0].value : 'Sort by')}
+          getTitle={(v) => (v.length > 0 ? v.map((o) => o.value).join(', ') : 'Sort by')}
         />
         <label className={styles.inStock}>
           <CheckBox checked={inStockOnly} onChange={onInStockOnlyChange} />

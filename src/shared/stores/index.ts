@@ -1,5 +1,8 @@
 export { AuthStore } from './AuthStore';
 export { CartStore } from './CartStore';
+export { CategoriesStore } from './CategoriesStore';
+export { DiscountStore } from './DiscountStore';
+export { OrderStore } from './OrderStore';
 export type { CartItemEntry } from './CartStore';
 export { ProductStore } from './ProductStore';
 export type { Product } from './ProductStore';
