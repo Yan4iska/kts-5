@@ -1,53 +1,131 @@
 @use '../../styles/variables' as *;
 
-.button {
+$btn-radius: 8px;
+$btn-transition: 0.2s ease;
 
-  --l-button-text: #{$button-color-text-primary};
-  --l-button-bg: #{$button-color-primary-bg};
-  min-height: 52px;
-  padding: $space-s $space-l;
-  border-radius: $border-radius;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  background-color: var(--l-button-bg);
-  border: none;
+.button {
+  --btn-text: #{$button-color-text-primary};
+  --btn-bg: #{$button-color-primary-bg};
+  --btn-border: transparent;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: $btn-radius;
+  border: 1px solid var(--btn-border);
+  cursor: pointer;
+  transition: background-color $btn-transition, color $btn-transition, border-color $btn-transition,
+    opacity $btn-transition;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  font: inherit;
+  min-height: 52px;
+  padding: $space-s $space-l;
+
+  &:focus-visible {
+    outline: 2px solid $color-brand;
+    outline-offset: 2px;
+  }
+
+  &:disabled,
+  &.button_disabled {
+    pointer-events: none;
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 
   &__text,
-  &__loader {
-    transition: color 0.3s ease;
-  }
-
-  & &__text {
-    color: var(--l-button-text);
-  }
-
-  & &__loader {
-    color: var(--l-button-text);
-    margin-right: 8px;
+  &__loader,
+  &__iconLeft,
+  &__iconRight {
     flex-shrink: 0;
-
   }
 
-  &:hover {
-    --l-button-text: #{$button-color-text-primary-hover};
-    --l-button-bg: #{$button-color-primary-bg-hover};
+  &__loader {
+    margin-right: 0;
   }
 
-  &:active {
-    --l-button-text: #{$button-color-text-primary-disabled};
-    --l-button-bg: #{$button-color-primary-bg-disabled};
+  &__iconLeft {
+    display: inline-flex;
   }
 
-  &:disabled {
-    pointer-events: none;
+  &__iconRight {
+    display: inline-flex;
+  }
+}
+
+.button_variant_primary {
+  --btn-text: #{$button-color-text-primary};
+  --btn-bg: #{$button-color-primary-bg};
+
+  &:hover:not(:disabled):not(.button_disabled) {
+    --btn-text: #{$button-color-text-primary-hover};
+    --btn-bg: #{$button-color-primary-bg-hover};
   }
 
-  &_disabled {
-    --l-button-text: #{$button-color-text-primary-disabled};
-    --l-button-bg: #{$button-color-primary-bg-disabled};
+  &:active:not(:disabled):not(.button_disabled) {
+    --btn-text: #{$button-color-text-primary-disabled};
+    --btn-bg: #{$button-color-primary-bg-disabled};
+  }
+}
+
+.button_variant_secondary {
+  --btn-text: #{$text-color-primary};
+  --btn-bg: #{$gray};
+
+  &:hover:not(:disabled):not(.button_disabled) {
+    --btn-bg: #{$button-color-primary-bg-hover};
+    --btn-text: #{$button-color-text-primary};
   }
 
+  &:active:not(:disabled):not(.button_disabled) {
+    --btn-bg: #{$button-color-primary-bg-disabled};
+  }
+}
 
+.button_variant_outline {
+  --btn-text: #{$text-color-secondary};
+  --btn-bg: transparent;
+  --btn-border: #{$gray};
+
+  &:hover:not(:disabled):not(.button_disabled) {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &:active:not(:disabled):not(.button_disabled) {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+}
+
+.button_variant_ghost {
+  --btn-text: #{$text-color-primary};
+  --btn-bg: transparent;
+  --btn-border: transparent;
+
+  &:hover:not(:disabled):not(.button_disabled) {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &:active:not(:disabled):not(.button_disabled) {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+}
+
+.button_size_sm {
+  min-height: 36px;
+  padding: $space-xs $space-m;
+}
+
+.button_size_md {
+  min-height: 52px;
+  padding: $space-s $space-l;
+}
+
+.button_size_lg {
+  min-height: 56px;
+  padding: $space-m $space-xl;
+}
+
+.button_fullWidth {
+  width: 100%;
 }
