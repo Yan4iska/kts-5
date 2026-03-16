@@ -1,12 +1,60 @@
+import { mapOldProductToProduct, type OldProductRaw } from 'adapters/productAdapter';
 import axios from 'axios';
 import qs from 'qs';
 import type { Product, ProductCategory, ProductResponse, ProductsResponse } from 'types/product';
 
+function compareProducts(
+  a: Product,
+  b: Product,
+  priceSort: 'price_asc' | 'price_desc' | undefined,
+  ratingSort: 'rating_asc' | 'rating_desc' | undefined
+): number {
+  if (ratingSort) {
+    const ra = a.rating ?? 0;
+    const rb = b.rating ?? 0;
+    const diff = ratingSort === 'rating_asc' ? ra - rb : rb - ra;
+    if (diff !== 0) return diff;
+  }
+  if (priceSort) {
+    const diff = priceSort === 'price_asc' ? a.price - b.price : b.price - a.price;
+    return diff;
+  }
+  return 0;
+}
+
+function mergeSortedProducts(
+  a: Product[],
+  b: Product[],
+  priceSort: 'price_asc' | 'price_desc' | undefined,
+  ratingSort: 'rating_asc' | 'rating_desc' | undefined
+): Product[] {
+  if (!priceSort && !ratingSort) return [...a, ...b];
+  const out: Product[] = [];
+  let i = 0;
+  let j = 0;
+  while (i < a.length && j < b.length) {
+    const cmp = compareProducts(a[i], b[j], priceSort, ratingSort);
+    if (cmp <= 0) {
+      out.push(a[i]);
+      i += 1;
+    } else {
+      out.push(b[j]);
+      j += 1;
+    }
+  }
+  while (i < a.length) {
+    out.push(a[i]);
+    i += 1;
+  }
+  while (j < b.length) {
+    out.push(b[j]);
+    j += 1;
+  }
+  return out;
+}
+
 const STRAPI_BASE = 'https://front-school-strapi.ktsdev.ru';
 const STRAPI_API_URL = `${STRAPI_BASE}/api`;
-
-const STRAPI_API_TOKEN: string | undefined =
-  typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_STRAPI_API_TOKEN : undefined;
 
 export const API = axios.create({
   baseURL: STRAPI_API_URL,
@@ -29,11 +77,7 @@ export function setAuthToken(token: string | null): void {
   if (token) {
     API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
-    if (STRAPI_API_TOKEN) {
-      API.defaults.headers.common['Authorization'] = `Bearer ${STRAPI_API_TOKEN}`;
-    } else {
-      delete API.defaults.headers.common['Authorization'];
-    }
+    delete API.defaults.headers.common['Authorization'];
   }
 }
 
@@ -44,9 +88,6 @@ export function getAuthToken(): string | null {
 if (typeof window !== 'undefined') {
   const stored = getStoredToken();
   if (stored) setAuthToken(stored);
-  else if (STRAPI_API_TOKEN) {
-    API.defaults.headers.common['Authorization'] = `Bearer ${STRAPI_API_TOKEN}`;
-  }
 }
 
 export type SortBy = 'price_asc' | 'price_desc' | 'rating_asc' | 'rating_desc';
@@ -58,12 +99,12 @@ export type GetProductsParams = {
   categoryId?: number;
   categoryIds?: number[];
   inStockOnly?: boolean;
-  sortBy?: SortBy;
+  sortBy?: SortBy[];
 };
 
-export const getProducts = async (
-  params?: GetProductsParams
-): Promise<{ data: Product[]; total: number; pageCount: number }> => {
+async function getStrapiProducts(
+  params: GetProductsParams
+): Promise<{ data: Product[]; total: number; pageCount: number }> {
   const {
     page = 1,
     pageSize = 12,
@@ -71,8 +112,12 @@ export const getProducts = async (
     categoryId,
     categoryIds,
     inStockOnly = false,
-    sortBy,
-  } = params ?? {};
+    sortBy: sortByParam,
+  } = params;
+  const sortByRaw = Array.isArray(sortByParam) ? sortByParam : sortByParam != null ? [sortByParam] : [];
+  const ratingSort = sortByRaw.find((s) => s.startsWith('rating_'));
+  const priceSort = sortByRaw.find((s) => s.startsWith('price_'));
+  const sortBy = [ratingSort, priceSort].filter(Boolean) as SortBy[];
 
   const queryObj: Record<string, unknown> = {
     populate: ['images', 'productCategory'],
@@ -95,18 +140,91 @@ export const getProducts = async (
     queryObj.filters = filters;
   }
 
-  if (sortBy) {
-    const [field, order] = sortBy.split('_') as [string, 'asc' | 'desc'];
-    queryObj.sort = [`${field}:${order}`];
+  if (sortBy.length > 0) {
+    queryObj.sort = sortBy.map((s) => {
+      const [field, order] = s.split('_') as [string, 'asc' | 'desc'];
+      return `${field}:${order}`;
+    });
   }
 
   const query = qs.stringify(queryObj, { encodeValuesOnly: true });
   const response = await API.get<ProductsResponse>(`/products?${query}`);
   const meta = response.data.meta;
+  const rawData = response.data.data as OldProductRaw[];
   return {
-    data: response.data.data,
+    data: rawData.map(mapOldProductToProduct),
     total: meta?.pagination?.total ?? 0,
     pageCount: meta?.pagination?.pageCount ?? 0,
+  };
+}
+
+export const getProducts = async (
+  params?: GetProductsParams
+): Promise<{ data: Product[]; total: number; pageCount: number }> => {
+  const {
+    page = 1,
+    pageSize = 12,
+    search = '',
+    categoryIds,
+    inStockOnly = false,
+    sortBy: sortByParam,
+  } = params ?? {};
+  const half = Math.max(1, Math.floor(pageSize / 2));
+  const sortByRaw = Array.isArray(sortByParam) ? sortByParam : sortByParam != null ? [sortByParam] : [];
+  const priceSort = sortByRaw.find((s) => s.startsWith('price_')) as 'price_asc' | 'price_desc' | undefined;
+  const ratingSort = sortByRaw.find((s) => s.startsWith('rating_')) as 'rating_asc' | 'rating_desc' | undefined;
+  const escuelaSortField: 'price' | 'rating' | undefined =
+    priceSort != null ? 'price' : ratingSort != null ? 'rating' : undefined;
+  const escuelaSortOrder: 'asc' | 'desc' | undefined =
+    priceSort === 'price_asc' || ratingSort === 'rating_asc'
+      ? 'asc'
+      : priceSort === 'price_desc' || ratingSort === 'rating_desc'
+        ? 'desc'
+        : undefined;
+
+  const strapiParams: GetProductsParams = {
+    page,
+    pageSize: half,
+    search: search || undefined,
+    categoryIds,
+    categoryId: categoryIds?.[0],
+    inStockOnly: inStockOnly || undefined,
+    sortBy: sortByParam,
+  };
+
+  const [strapiResult, escuelaResult] = await Promise.all([
+    getStrapiProducts(strapiParams).catch(() => ({ data: [] as Product[], total: 0, pageCount: 0 })),
+    (async () => {
+      const { getEscuelaProducts, getEscuelaProductsTotal } = await import('./escuelajs');
+      const offset = (page - 1) * half;
+      const categoryId = categoryIds?.[0];
+      const [dataRes, total] = await Promise.all([
+        getEscuelaProducts({
+          offset,
+          limit: half,
+          categoryId,
+          title: search?.trim() || undefined,
+          sortField: escuelaSortField,
+          sortOrder: escuelaSortOrder,
+        }),
+        getEscuelaProductsTotal({ categoryId, title: search?.trim() || undefined }),
+      ]);
+      return { data: dataRes.data, total };
+    })().catch(() => ({ data: [] as Product[], total: 0 })),
+  ]);
+
+  const merged = mergeSortedProducts(
+    strapiResult.data,
+    escuelaResult.data,
+    priceSort,
+    ratingSort
+  );
+  const total = strapiResult.total + escuelaResult.total;
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  return {
+    data: merged,
+    total,
+    pageCount,
   };
 };
 
@@ -116,9 +234,17 @@ export const getProduct = async (documentId: string): Promise<Product> => {
     { encodeValuesOnly: true }
   );
 
-  const response = await API.get<ProductResponse>(`/products/${documentId}?${query}`);
-
-  return response.data.data;
+  try {
+    const response = await API.get<ProductResponse>(`/products/${documentId}?${query}`);
+    return mapOldProductToProduct(response.data.data as OldProductRaw);
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      const { getEscuelaProductBySlug } = await import('./escuelajs');
+      const escuelaProduct = await getEscuelaProductBySlug(documentId);
+      if (escuelaProduct) return escuelaProduct;
+    }
+    throw err;
+  }
 };
 
 type ProductCategoryRaw = {
@@ -203,7 +329,6 @@ export const login = async (identifier: string, password: string): Promise<AuthR
   return data;
 };
 
-/** POST /auth/local/register – регистрация. */
 export const register = async (
   username: string,
   email: string,
