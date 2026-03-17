@@ -8,8 +8,27 @@ import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useRootStore } from 'stores';
+import { z } from 'zod';
 
 import styles from './Register.module.scss';
+
+const registerSchema = z.object({
+  username: z
+    .string()
+    .min(3, 'Username must be at least 3 characters'),
+  email: z
+    .string()
+    .email('Email must be valid'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters'),
+});
+
+type RegisterErrors = {
+  username?: string;
+  email?: string;
+  password?: string;
+};
 
 const RegisterForm = observer(function RegisterForm() {
   const { authStore, cartStore } = useRootStore();
@@ -20,12 +39,37 @@ const RegisterForm = observer(function RegisterForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<RegisterErrors>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     authStore.error = null;
+    setErrors({});
+
+    const parsed = registerSchema.safeParse({
+      username: username.trim(),
+      email: email.trim(),
+      password,
+    });
+
+    if (!parsed.success) {
+      const fieldErrors: RegisterErrors = {};
+      const formErrors = parsed.error.flatten();
+      if (formErrors.fieldErrors.username?.[0]) {
+        fieldErrors.username = formErrors.fieldErrors.username[0];
+      }
+      if (formErrors.fieldErrors.email?.[0]) {
+        fieldErrors.email = formErrors.fieldErrors.email[0];
+      }
+      if (formErrors.fieldErrors.password?.[0]) {
+        fieldErrors.password = formErrors.fieldErrors.password[0];
+      }
+      setErrors(fieldErrors);
+      return;
+    }
+
     try {
-      await authStore.register(username.trim(), email.trim(), password);
+      await authStore.register(parsed.data.username, parsed.data.email, parsed.data.password);
       await cartStore.fetchCart();
       router.replace(returnUrl);
     } catch {
@@ -49,9 +93,13 @@ const RegisterForm = observer(function RegisterForm() {
               onChange={setUsername}
               placeholder="Username"
               autoComplete="username"
-              required
               className={styles.input}
             />
+            {errors.username && (
+              <Text tag="p" view="p-14" color="secondary" className={styles.error}>
+                {errors.username}
+              </Text>
+            )}
           </label>
           <label className={styles.field}>
             <Text tag="span" view="p-16" color="secondary" className={styles.label}>
@@ -63,9 +111,13 @@ const RegisterForm = observer(function RegisterForm() {
               onChange={setEmail}
               placeholder="Email"
               autoComplete="email"
-              required
               className={styles.input}
             />
+            {errors.email && (
+              <Text tag="p" view="p-14" color="secondary" className={styles.error}>
+                {errors.email}
+              </Text>
+            )}
           </label>
           <label className={styles.field}>
             <Text tag="span" view="p-16" color="secondary" className={styles.label}>
@@ -77,9 +129,13 @@ const RegisterForm = observer(function RegisterForm() {
               onChange={setPassword}
               placeholder="Password"
               autoComplete="new-password"
-              required
               className={styles.input}
             />
+            {errors.password && (
+              <Text tag="p" view="p-14" color="secondary" className={styles.error}>
+                {errors.password}
+              </Text>
+            )}
           </label>
           {authStore.error && (
             <Text tag="p" view="p-16" className={styles.error}>
