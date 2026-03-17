@@ -83,9 +83,17 @@ export class ProductsStore {
   loading = false;
   error: string | null = null;
   _skipNextFetch = false;
+  _pendingUrlSync = false;
 
   constructor() {
-    makeAutoObservable(this, { _skipNextFetch: false });
+    makeAutoObservable(this, { _skipNextFetch: false, _pendingUrlSync: false });
+  }
+
+  /** Skip applying URL → store once (after user changed filters). */
+  consumePendingUrlSync(): boolean {
+    const v = this._pendingUrlSync;
+    this._pendingUrlSync = false;
+    return v;
   }
 
   hydrateFromServer(data: ProductsInitialData): void {
@@ -126,6 +134,8 @@ export class ProductsStore {
   }
 
   setSearchQuery(value: string): void {
+    this._skipNextFetch = false;
+    this._pendingUrlSync = true;
     this.search = value;
     this.page = 1;
     this.products = [];
@@ -142,18 +152,24 @@ export class ProductsStore {
   }
 
   setCategoryIds(ids: number[]): void {
+    this._skipNextFetch = false;
+    this._pendingUrlSync = true;
     this.categoryIds = ids;
     this.page = 1;
     this.products = [];
   }
 
   setInStockOnly(value: boolean): void {
+    this._skipNextFetch = false;
+    this._pendingUrlSync = true;
     this.inStockOnly = value;
     this.page = 1;
     this.products = [];
   }
 
   setSortBy(value: SortBy[]): void {
+    this._skipNextFetch = false;
+    this._pendingUrlSync = true;
     this.sortBy = value;
     this.page = 1;
     this.products = [];

@@ -27,6 +27,7 @@ const ProductsClientInner = observer(({ initialData }: ProductsClientProps) => {
   }, []);
 
   useEffect(() => {
+    if (productsStore.consumePendingUrlSync()) return;
     productsStore.applyQueryParams(searchParams);
   }, [searchParams, productsStore]);
 
