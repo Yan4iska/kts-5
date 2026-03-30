@@ -4,63 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e409c2c-32b7-4ab9-ac67-388b6a658ab9" name="Changes" comment="fix(RightBlock): safely access user in JSX&#10;- moved `const user = authStore.user`&#10;- compute `showUserBlock = mounted &amp;&amp; isAuthenticated &amp;&amp; user != null`&#10;- use `user!.email` safely in JSX">
+    <list default="true" id="2e409c2c-32b7-4ab9-ac67-388b6a658ab9" name="Changes" comment="fix(images): ensure string src for fallback &lt;img&gt; using imgSrc variable">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/about/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/about/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/aboutUs/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/cart/Cart.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/cart/Cart.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/cart/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/cart/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/categories/Categories.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/categories/Categories.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/categories/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/categories/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/products/[id]/components/Content/Content.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/products/[id]/components/Content/Content.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/products/[id]/components/Content/Content.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/products/[id]/components/Content/Content.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/products/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/products/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/products/components/ProductsHeader/ProductsHeader.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/products/components/ProductsHeader/ProductsHeader.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/products/components/ProductsHeader/ProductsHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/products/components/ProductsHeader/ProductsHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/products/components/ProductsList/ProductsList.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/products/components/ProductsList/ProductsList.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/products/components/ProductsList/ProductsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/products/components/ProductsList/ProductsList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/products/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/products/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/server-example/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/providers/StoreProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/StoreProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Button/Button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Button/Button.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Button/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Button/Button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Card/Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Card/Card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Carousel/Carousel.module.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Carousel/Carousel.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Carousel/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Filter/Filter.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Filter/Filter.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Filter/Filter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Filter/Filter.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Header/Header.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Header/Header.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Header/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Header/RightBlock/RightBlock.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Header/RightBlock/RightBlock.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Header/RightBlock/RightBlock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Header/RightBlock/RightBlock.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/Input/Input.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/Input/Input.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/MultiDropdown/MultiDropdown.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/MultiDropdown/MultiDropdown.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/MultiDropdown/MultiDropdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/MultiDropdown/MultiDropdown.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/icons/VectorIcon/VectorIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/icons/VectorIcon/VectorIcon.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/config/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/config/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/config/configureMobX.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/config/paths.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/config/paths.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/config/routes.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/hooks/useProducts.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/stores/CartStore/CartStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/stores/CartStore/CartStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/stores/ProductStore/ProductStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/stores/ProductStore/ProductStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/stores/ProductsStore/ProductsStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/stores/ProductsStore/ProductsStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/stores/RootStore/RootStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/stores/RootStore/RootStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/stores/StoreContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/stores/StoreContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/stores/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/stores/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/styles/_mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/styles/_mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/styles/media.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/styles/media.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/styles/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/styles/variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/types/product.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/types/product.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +81,11 @@
       <workItem from="1773363419582" duration="16729000" />
       <workItem from="1773537621161" duration="3116000" />
       <workItem from="1773543143176" duration="1000" />
-      <workItem from="1773543161700" duration="17044000" />
+      <workItem from="1773543161700" duration="18867000" />
+      <workItem from="1774542214938" duration="4024000" />
+      <workItem from="1774683730256" duration="1000" />
+      <workItem from="1774782831484" duration="17000" />
+      <workItem from="1774838257378" duration="305000" />
     </task>
     <task id="LOCAL-00001" summary="fix(RightBlock): safely access user in JSX&#10;- moved `const user = authStore.user`&#10;- compute `showUserBlock = mounted &amp;&amp; isAuthenticated &amp;&amp; user != null`&#10;- use `user!.email` safely in JSX">
       <option name="closed" value="true" />
@@ -144,14 +95,43 @@
       <option name="project" value="LOCAL" />
       <updated>1773134668960</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="change of stripe version c 5.4.0 to 8">
+      <option name="closed" value="true" />
+      <created>1773704575002</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1773704575002</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix(images): ensure string src for fallback &lt;img&gt; using imgSrc variable">
+      <option name="closed" value="true" />
+      <created>1773704841247</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1773704841247</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix(RightBlock): safely access user in JSX&#10;- moved `const user = authStore.user`&#10;- compute `showUserBlock = mounted &amp;&amp; isAuthenticated &amp;&amp; user != null`&#10;- use `user!.email` safely in JSX" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(RightBlock): safely access user in JSX&#10;- moved `const user = authStore.user`&#10;- compute `showUserBlock = mounted &amp;&amp; isAuthenticated &amp;&amp; user != null`&#10;- use `user!.email` safely in JSX" />
+    <MESSAGE value="change of stripe version c 5.4.0 to 8" />
+    <MESSAGE value="fix(images): ensure string src for fallback &lt;img&gt; using imgSrc variable" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(images): ensure string src for fallback &lt;img&gt; using imgSrc variable" />
   </component>
 </project>
